@@ -2,9 +2,10 @@ import { breakpoints } from "@cssVariables"
 import styled from "styled-components"
 
 const Sidebar = styled.aside`
-    background-color: red;
+    order: 2;
     ${breakpoints.md} {
-        width: 30%;
+        width: 200px;
+        order: 0;
     }
 `
 

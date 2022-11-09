@@ -1,18 +1,30 @@
-import React from "react"
-
-const Video = ({ id, title, thumbnailSrc, setSelectedVideoId }: Props) => {
+import { selectedVideo } from "models"
+import * as S from "./styled"
+import { scrollToTop } from "utils"
+const Video = ({
+    id,
+    title,
+    description,
+    thumbnailSrc,
+    setSelectedVideo,
+}: Props) => {
+    const selectVideo = () => {
+        setSelectedVideo({ id, title, description })
+        scrollToTop()
+    }
     return (
-        <div onClick={() => setSelectedVideoId(id)} id={id}>
-            {title}
-            <img src={thumbnailSrc} />
-        </div>
+        <S.Video onClick={() => selectVideo()} id={id}>
+            <S.Thumbnail src={thumbnailSrc} alt={title} />
+            <S.Title>{title}</S.Title>
+        </S.Video>
     )
 }
 
 interface Props {
-    setSelectedVideoId: any
+    setSelectedVideo: (selectedVideo: selectedVideo) => void
     id: string
     title: string
+    description: string
     thumbnailSrc: string
 }
 

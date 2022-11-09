@@ -1,23 +1,22 @@
-import React from "react"
-
 import * as S from "./styled"
 
-const Player = ({ id }: Props) => {
+const Player = ({ id, title, description }: Props) => {
     return (
         <S.Player>
-            <iframe
-                width="560"
-                height="315"
+            <S.Iframe
                 src={`https://www.youtube.com/embed/${id}`}
-                title="YouTube video player"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
             />
+            <h2>{title}</h2>
+            <p>{description}</p>
         </S.Player>
     )
 }
 
 interface Props {
     id: string
+    title: string
+    description: string
 }
 export default Player
