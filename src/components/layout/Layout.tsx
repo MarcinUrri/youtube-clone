@@ -1,40 +1,101 @@
-import { useState } from "react"
+import { useState, useReducer } from "react"
 import Header from "./header/Header"
-import Footer from "./footer/Footer"
 import * as S from "./styled"
-import { ReactNode } from "react"
 import Sidebar from "./sidebar/Sidebar"
 import Player from "./player/Player"
+import { selectedVideo } from "models"
+import Loader from "components/common/loader/Loader"
 
-const Layout = ({ children }: Props) => {
+const initialState: state = {
+    error: false,
+    loading: false,
+    videos: [],
+}
+
+const reducer = (state: state, action: action) => {
+    switch (action.type) {
+        case "ERROR":
+            return {
+                ...state,
+                error: action.payload,
+                loading: false,
+                videos: [],
+            }
+        case "SUCCESS":
+            return {
+                ...state,
+                error: false,
+                loading: false,
+                videos: action.payload,
+            }
+        case "LOADING":
+            return {
+                ...state,
+                error: false,
+                loading: true,
+                videos: [],
+            }
+        default:
+            return {
+                ...state,
+                error: true,
+                loading: false,
+                videos: [],
+            }
+    }
+}
+
+const Layout = () => {
+    const [state, dispatch] = useReducer(reducer, initialState)
+
     const [searchQuery, setSearchQuery] = useState("")
-    const [videos, setVideos] = useState([])
-    const [selectedVideoId, setSelectedVideoId] = useState<null | string>(null)
+    const [selectedVideo, setSelectedVideo] = useState<null | selectedVideo>(
+        null
+    )
     return (
         <S.Layout>
+            {state.loading && <Loader />}
             <Header
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                setVideos={setVideos}
+                dispatch={dispatch}
             />
             <S.Main>
+                {state.error && <S.Error>{state.error}</S.Error>}
+
                 <Sidebar
-                    setSelectedVideoId={setSelectedVideoId}
-                    videos={videos}
+                    setSelectedVideo={setSelectedVideo}
+                    videos={state.videos}
                 />
-                {selectedVideoId ? (
-                    <Player id={selectedVideoId} />
-                ) : (
-                    "Select video"
+                {selectedVideo && (
+                    <Player
+                        id={selectedVideo.id}
+                        title={selectedVideo.title}
+                        description={selectedVideo.description}
+                    />
                 )}
             </S.Main>
-            <Footer />
         </S.Layout>
     )
 }
 
-interface Props {
-    children: ReactNode
+interface action {
+    type: "LOADING" | "ERROR" | "SUCCESS"
+    payload: any
 }
 
+type state = {
+    error: boolean
+    loading: boolean
+    videos:
+        | []
+        | Array<{
+              id: { videoId: string }
+              snippet: {
+                  title: string
+                  description: string
+                  thumbnails: { high: { url: string } }
+              }
+          }>
+}
 export default Layout

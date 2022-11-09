@@ -1,18 +1,20 @@
-import React from "react"
-
 import * as S from "./styled"
 import Video from "./video/Video"
-const Sidebar = ({ videos, setSelectedVideoId }: Props) => {
-    if (videos.length === 0) return <div>no videos</div>
+import { selectedVideo } from "models"
+
+const Sidebar = ({ videos, setSelectedVideo }: Props) => {
+    if (videos.length === 0) return null
     return (
         <S.Sidebar>
-            {videos.map(video => {
+            {videos?.map(video => {
                 return (
                     <Video
-                        setSelectedVideoId={setSelectedVideoId}
+                        key={video.id.videoId}
+                        setSelectedVideo={setSelectedVideo}
                         id={video.id.videoId}
                         title={video.snippet.title}
-                        thumbnailSrc={video.snippet.thumbnails.default.url}
+                        description={video.snippet.description}
+                        thumbnailSrc={video.snippet.thumbnails.high.url}
                     />
                 )
             })}
@@ -23,9 +25,13 @@ const Sidebar = ({ videos, setSelectedVideoId }: Props) => {
 interface Props {
     videos: {
         id: { videoId: string }
-        snippet: { title: string; thumbnails: { default: { url: string } } }
+        snippet: {
+            title: string
+            description: string
+            thumbnails: { high: { url: string } }
+        }
     }[]
-    setSelectedVideoId: (id: string) => void
+    setSelectedVideo: (selectedVideo: selectedVideo) => void
 }
 
 export default Sidebar

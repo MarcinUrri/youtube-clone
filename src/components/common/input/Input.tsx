@@ -1,29 +1,18 @@
-import React from "react"
+import * as S from "./styled"
 
-const Input = ({
-    labelText,
-    id,
-    value,
-    placeholder,
-    type,
-    onChange,
-}: Props) => {
+const Input = ({ id, value, placeholder, type, onChange }: Props) => {
     return (
-        <>
-            <label htmlFor={id}>{labelText}</label>
-            <input
-                id={id}
-                type={type}
-                placeholder={placeholder}
-                value={value}
-                onChange={e => onChange(e.target.value)}
-            />
-        </>
+        <S.Input
+            id={id}
+            type={type}
+            placeholder={placeholder}
+            value={value}
+            onChange={e => onChange(e.target.value)}
+        />
     )
 }
 
 interface Props {
-    labelText: string
     id: string
     value: string | number
     placeholder: string

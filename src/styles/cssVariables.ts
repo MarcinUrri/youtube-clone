@@ -1,8 +1,11 @@
 export const colors = {
     primary: "#ffa000",
-    gray: "#707070",
+    black: "#0f0f0f",
+    gray: "#ccc",
+    red: "#ff3d00",
 }
 export const fonts = {
+    small: "12px",
     base: "16px",
     medium: "26px",
 }
