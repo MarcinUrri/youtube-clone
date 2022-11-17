@@ -10,7 +10,7 @@ const Layout = styled.div`
 
     ${breakpoints.md} {
         padding: 0 40px;
-        margin-top: 120px;
+        margin-top: 130px;
     }
 `
 

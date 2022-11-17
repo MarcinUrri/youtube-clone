@@ -12,7 +12,7 @@ const initialState: state = {
     videos: [],
 }
 
-const reducer = (state: state, action: action) => {
+const reducer = (state: state, action: actionType): state => {
     switch (action.type) {
         case "ERROR":
             return {
@@ -35,10 +35,17 @@ const reducer = (state: state, action: action) => {
                 loading: true,
                 videos: [],
             }
+        case "IDLE":
+            return {
+                ...state,
+                error: false,
+                loading: false,
+                videos: [],
+            }
         default:
             return {
                 ...state,
-                error: true,
+                error: false,
                 loading: false,
                 videos: [],
             }
@@ -79,23 +86,48 @@ const Layout = () => {
     )
 }
 
-interface action {
-    type: "LOADING" | "ERROR" | "SUCCESS"
-    payload: any
+type successAction = {
+    type: "SUCCESS"
+    payload: Array<{
+        id: { videoId: string }
+        snippet: {
+            title: string
+            description: string
+            thumbnails: { high: { url: string } }
+        }
+    }>
 }
 
-type state = {
-    error: boolean
-    loading: boolean
-    videos:
-        | []
-        | Array<{
-              id: { videoId: string }
-              snippet: {
-                  title: string
-                  description: string
-                  thumbnails: { high: { url: string } }
-              }
-          }>
+type errorAction = {
+    type: "ERROR"
+    payload: string
 }
+
+type loadingAction = {
+    type: "LOADING"
+}
+
+type idleAction = {
+    type: "IDLE"
+}
+
+type actionType = successAction | errorAction | loadingAction | idleAction
+
+type idleState = { error: false; loading: false; videos: [] }
+type errorState = { error: string; loading: false; videos: [] }
+type loadingState = { error: false; loading: true; videos: [] }
+type successState = {
+    error: false
+    loading: false
+    videos: Array<{
+        id: { videoId: string }
+        snippet: {
+            title: string
+            description: string
+            thumbnails: { high: { url: string } }
+        }
+    }>
+}
+
+type state = errorState | loadingState | successState | idleState
 export default Layout

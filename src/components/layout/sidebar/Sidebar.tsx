@@ -6,7 +6,7 @@ const Sidebar = ({ videos, setSelectedVideo }: Props) => {
     if (videos.length === 0) return null
     return (
         <S.Sidebar>
-            {videos?.map(video => {
+            {videos.map(video => {
                 return (
                     <Video
                         key={video.id.videoId}

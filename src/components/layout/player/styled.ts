@@ -15,7 +15,7 @@ const Iframe = styled.iframe`
     max-width: 100%;
 
     ${breakpoints.lg} {
-        height: 300xp;
+        height: 300px;
     }
 `
 
